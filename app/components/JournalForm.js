@@ -163,10 +163,10 @@ export default function JournalForm({ userId, refresh }) {
                   key={amb.id}
                   onClick={() => {
                     setAmbience(amb.id);
-                    setShowCustomInput(false);
+                    setShowCustomInput(false); 
                   }}
                   disabled={isSaved}
-                  className={`flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition-all ${isActive
+                  className={`flex shrink-0 items-center gap-1 md:gap-2 rounded-xl border px-2 py-2 md:px-3 md:py-2 text-xs md:text-sm font-semibold transition-all ${isActive
                     ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-900/30 dark:text-emerald-400 shadow-sm"
                     : "border-slate-100 bg-white text-slate-500 hover:border-slate-200 hover:cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
                     }`}
