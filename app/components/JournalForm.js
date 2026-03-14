@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PenLine, Trees, Waves, MountainSnow, SendHorizontal, Sparkles, Loader2, Brain, Tag, AlignLeft } from "lucide-react";
+import { PenLine, Trees, Waves, MountainSnow, SendHorizontal, Sparkles, Loader2, Brain, Tag, AlignLeft, Plus } from "lucide-react";
 
 export default function JournalForm({ userId, refresh }) {
   const [text, setText] = useState("");
@@ -13,6 +13,25 @@ export default function JournalForm({ userId, refresh }) {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+
+  // Custom ambience states
+  const [customAmbiences, setCustomAmbiences] = useState([]);
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [customAmbienceInput, setCustomAmbienceInput] = useState("");
+
+  const handleAddCustomAmbience = (e) => {
+    if (e.type === 'blur' || e.key === 'Enter') {
+      if (customAmbienceInput.trim()) {
+        const newAmbId = customAmbienceInput.trim().toLowerCase();
+        if (!ambiences.find(a => a.id === newAmbId) && !customAmbiences.find(a => a.id === newAmbId)) {
+          setCustomAmbiences([...customAmbiences, { id: newAmbId, icon: Sparkles, label: customAmbienceInput.trim() }]);
+        }
+        setAmbience(newAmbId);
+      }
+      setShowCustomInput(false);
+      setCustomAmbienceInput("");
+    }
+  };
 
   const ambiences = [
     { id: "forest", icon: Trees, label: "Forest" },
@@ -89,6 +108,8 @@ export default function JournalForm({ userId, refresh }) {
     setDocumentId(null);
     setIsSaved(false);
     setAnalysisResult(null);
+    setShowCustomInput(false);
+    setCustomAmbienceInput("");
   };
 
   return (
@@ -133,14 +154,17 @@ export default function JournalForm({ userId, refresh }) {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className={`flex items-center gap-2 transition-opacity duration-300 ${isSaved ? "opacity-30 pointer-events-none" : ""}`}>
-            {ambiences.map((amb) => {
+          <div className={`flex flex-wrap items-center gap-2 transition-opacity duration-300 ${isSaved ? "opacity-30 pointer-events-none" : ""}`}>
+            {[...ambiences, ...customAmbiences].map((amb) => {
               const Icon = amb.icon;
               const isActive = ambience === amb.id;
               return (
                 <button
                   key={amb.id}
-                  onClick={() => setAmbience(amb.id)}
+                  onClick={() => {
+                    setAmbience(amb.id);
+                    setShowCustomInput(false);
+                  }}
                   disabled={isSaved}
                   className={`flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition-all ${isActive
                     ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-900/30 dark:text-emerald-400 shadow-sm"
@@ -152,6 +176,28 @@ export default function JournalForm({ userId, refresh }) {
                 </button>
               );
             })}
+
+            {showCustomInput ? (
+              <input
+                autoFocus
+                type="text"
+                value={customAmbienceInput}
+                onChange={(e) => setCustomAmbienceInput(e.target.value)}
+                onBlur={handleAddCustomAmbience}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddCustomAmbience(e)}
+                placeholder="Custom..."
+                className="flex w-24 sm:w-32 shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              />
+            ) : (
+              <button
+                onClick={() => setShowCustomInput(true)}
+                disabled={isSaved}
+                className="flex shrink-0 items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-transparent px-3 py-2 text-sm font-semibold text-slate-500 transition-all hover:border-slate-400 hover:text-slate-700 hover:cursor-pointer dark:border-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+              >
+                <Plus className="h-4 w-4" />
+                <span className="sr-only sm:not-sr-only sm:inline">Add</span>
+              </button>
+            )}
           </div>
 
           {!isSaved ? (

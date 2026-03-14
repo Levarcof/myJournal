@@ -11,7 +11,6 @@ const journalSchema = new mongoose.Schema(
     ambience: {
       type: String,
       required: true,
-      enum: ["forest", "ocean", "mountain"],
     },
 
     text: {

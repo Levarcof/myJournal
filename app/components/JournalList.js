@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Trees, Waves, MountainSnow, Calendar, Brain, Tag, AlignLeft } from "lucide-react";
+import { Clock, Trees, Waves, MountainSnow, Calendar, Brain, Tag, AlignLeft, Sparkles } from "lucide-react";
 
 export default function JournalList({ entries }) {
   const getAmbienceIcon = (ambience) => {
@@ -12,7 +12,7 @@ export default function JournalList({ entries }) {
       case "mountain":
         return <MountainSnow className="h-4 w-4" />;
       default:
-        return <Trees className="h-4 w-4" />;
+        return <Sparkles className="h-4 w-4" />;
     }
   };
 
