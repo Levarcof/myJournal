@@ -73,7 +73,7 @@ http://localhost:3000
 ---
 
 Live Demo:
-https://journal-ai.vercel.app
+https://my-journal-gilt.vercel.app/login
 
 ## Project Workflow
 

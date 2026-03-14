@@ -24,7 +24,7 @@ export default function TopNav() {
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-leaf text-white w-5 h-5"><path d="M11 20A7 7 0 0 1 14 6h7v7a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V6h7a7 7 0 0 1 7 7v7Z" /><path d="M11 20V9" /></svg>
                         </div>
                         <span className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">
-                            Journel
+                            Journal
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
