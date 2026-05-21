@@ -10,7 +10,6 @@ export async function POST(req) {
 
     const { userId, password } = await req.json();
 
-    // 1. Validation check (agar input khali ho)
     if (!userId || !password) {
       return NextResponse.json(
         { message: "UserId and password are required" },
@@ -20,7 +19,7 @@ export async function POST(req) {
 
     const user = await User.findOne({ userId });
 
-    // Response.json ko NextResponse.json se replace kiya consistent rakhne ke liye
+  
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
@@ -31,7 +30,6 @@ export async function POST(req) {
       return NextResponse.json({ message: "Invalid password" }, { status: 401 });
     }
 
-    // 2. JWT Secret check (Yeh akshar Internal Error ka karan banta hai)
     if (!process.env.JWT_SECRET) {
       console.error("CRITICAL ERROR: JWT_SECRET is not defined in .env file");
       return NextResponse.json(
@@ -49,11 +47,10 @@ export async function POST(req) {
       { expiresIn: "7d" }
     );
 
-    // 🍪 Store in cookie
     const response = NextResponse.json({
       success: true,
       message: "Login successful",
-      user: { id: user._id, userId: user.userId } // Optional: user data frontend ke liye
+      user: { id: user._id, userId: user.userId } 
     });
 
     response.cookies.set("token", token, {
@@ -66,11 +63,11 @@ export async function POST(req) {
 
     return response;
   } catch (error) {
-    // Yeh terminal me real error dikhayega jisse debug karna aasan hoga
+   
     console.error("Login API Error Detail:", error);
     
     return NextResponse.json(
-      { message: "Internal Server Error", error: error.message }, // error.message daala hai taaki debug ho sake
+      { message: "Internal Server Error", error: error.message }, 
       { status: 500 }
     );
   }
